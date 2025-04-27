@@ -35,6 +35,10 @@ public class JwtInterceptor implements HandlerInterceptor {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid or expired JWT token");
             return false;
         }
+
+        String username = jwtUtil.extractUsername(token);
+        request.setAttribute("username", username);
+
         return true;
     }
 }

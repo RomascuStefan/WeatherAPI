@@ -8,4 +8,8 @@ public class HelperFunctions {
     public static String getHashString(String input) {
         return encoder.encode(input);
     }
+
+    public static boolean passwordsMatch(String raw, String encoded) {
+        return encoder.matches(raw, encoded);
+    }
 }

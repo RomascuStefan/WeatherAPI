@@ -37,27 +37,10 @@ public class UserService {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
-/*    @Transactional
-    public UserDTO createUser(UserDTO userDTO) {
-        UserProfile userProfile = UserMapper.getUserProfile(userDTO);
-        userProfile = userProfileDAO.save(userProfile);
-
-        User user = UserMapper.getUser(userDTO, userProfile.getId());
-        user = userDAO.save(user);
-
-        userProfile.setUser(user);
-        userProfile = userProfileDAO.save(userProfile);
-
-        user.setUserprofile(userProfile);
-        user = userDAO.save(user);
-
-        return UserMapper.toDTO(user);
-    }*/
-
     @Transactional
     public UserDTO createUser(UserDTO userDTO) {
         User user = UserMapper.getUser(userDTO);
-            user.setPassword(HelperFunctions.getHashString(userDTO.getPassword()));
+        user.setPassword(HelperFunctions.getHashString(userDTO.getPassword()));
         user = userDAO.save(user);
 
         UserProfile userProfile = UserMapper.getUserProfile(userDTO);

@@ -1,5 +1,7 @@
 package com.example.demo.Service;
 
+import com.example.demo.Advice.Exception.DuplicateResourceException;
+import com.example.demo.Advice.Exception.ResourceNotFoundException;
 import com.example.demo.DTO.Mapper.UserMapper;
 import com.example.demo.DTO.UserDTO;
 import com.example.demo.Extra.HelperFunctions;
@@ -33,12 +35,17 @@ public class UserService {
         if (user.isPresent())
             return ResponseEntity.ok(UserMapper.toDTO(user.get()));
 
-        else
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        throw new ResourceNotFoundException("Username", username);
     }
 
     @Transactional
     public UserDTO createUser(UserDTO userDTO) {
+        if(userDAO.findByUsername(userDTO.getUsername()).isPresent())
+            throw new DuplicateResourceException("Username", userDTO.getUsername());
+
+        if(userProfileDAO.findByEmail(userDTO.getEmail()).isPresent())
+            throw new DuplicateResourceException("Email", userDTO.getEmail());
+
         User user = UserMapper.getUser(userDTO);
         user.setPassword(HelperFunctions.getHashString(userDTO.getPassword()));
         user = userDAO.save(user);
@@ -58,7 +65,8 @@ public class UserService {
         if(user.isPresent())
             return user.get();
 
-        return null;
+        throw new ResourceNotFoundException("Username", username);
+
     }
 
 }

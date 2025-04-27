@@ -27,7 +27,9 @@ public class WeatherController {
     }
 
     @GetMapping
-    public ResponseEntity<Map<Object, Object>> getWeatherStatus(@RequestParam String username, @RequestParam int lat, @RequestParam int lon, @RequestParam(required = false) Boolean q, @RequestParam(required = false) Boolean aqi) {
+    public ResponseEntity<Map<Object, Object>> getWeatherStatus(
+            @RequestParam String username, @RequestParam int lat, @RequestParam int lon,
+            @RequestParam(required = false) Boolean q, @RequestParam(required = false) Boolean aqi) {
         User user = userService.getUserByUsername(username);
         if (user == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

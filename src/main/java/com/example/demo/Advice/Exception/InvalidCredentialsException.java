@@ -1,7 +1,7 @@
-package com.example.demo.Exception;
+package com.example.demo.Advice.Exception;
 
 public class InvalidCredentialsException extends RuntimeException {
     public InvalidCredentialsException() {
-        super("Username sau parola invalide");
+        super("username or password is incorrect");
     }
 }

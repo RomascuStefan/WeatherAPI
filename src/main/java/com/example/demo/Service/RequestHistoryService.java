@@ -2,6 +2,7 @@ package com.example.demo.Service;
 
 import com.example.demo.DTO.Mapper.RequestHistoryMapper;
 import com.example.demo.DTO.RequestHistoryDTO;
+import com.example.demo.DTO.WeatherResponseDTO;
 import com.example.demo.Model.RequestHistory;
 import com.example.demo.Model.User;
 import com.example.demo.Repository.RequestHistoryDAO;
@@ -24,7 +25,7 @@ public class RequestHistoryService {
         this.requestHistoryDAO = requestHistoryDAO;
     }
 
-    public void saveRequestHistory(User user, int lat, int lon, Boolean q, Boolean aqi, Map<Object, Object> response) {
+    public void saveRequestHistory(User user, int lat, int lon, Boolean q, Boolean aqi, WeatherResponseDTO response) {
         RequestHistory history = new RequestHistory();
 
         history.setLat(String.valueOf(lat));

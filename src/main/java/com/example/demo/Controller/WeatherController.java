@@ -1,5 +1,6 @@
 package com.example.demo.Controller;
 
+import com.example.demo.DTO.WeatherResponseDTO;
 import com.example.demo.Model.User;
 import com.example.demo.Service.RequestHistoryService;
 import com.example.demo.Service.WeatherService;
@@ -27,14 +28,14 @@ public class WeatherController {
     }
 
     @GetMapping
-    public ResponseEntity<Map<Object, Object>> getWeatherStatus(
+    public ResponseEntity<WeatherResponseDTO> getWeatherStatus(
             @RequestAttribute("username") String username, @RequestParam int lat, @RequestParam int lon,
-            @RequestParam(required = false) Boolean q, @RequestParam(required = false) Boolean aqi) {
+            @RequestParam(required = false, defaultValue = "false") Boolean q, @RequestParam(required = false, defaultValue = "false") Boolean aqi) {
 
         User user = userService.getUserByUsername(username);
 
         String apiKey = user.getUserprofile().getWeatherApiKey();
-        Map<Object, Object> response = weatherService.getWeatherStatus(apiKey, lat, lon, q, aqi);
+        WeatherResponseDTO response = weatherService.getWeatherStatus(apiKey, lat, lon, q, aqi);
 
         requestHistoryService.saveRequestHistory(user, lat, lon, q, aqi, response);
         return ResponseEntity.ok(response);

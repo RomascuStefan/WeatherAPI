@@ -1,5 +1,6 @@
 package com.example.demo.Controller;
 
+import com.example.demo.DTO.CoordsDTO;
 import com.example.demo.DTO.WeatherResponseDTO;
 import com.example.demo.Model.User;
 import com.example.demo.Service.WeatherService;
@@ -7,6 +8,9 @@ import com.example.demo.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/weather")
@@ -33,4 +37,17 @@ public class WeatherController {
         return ResponseEntity.ok(response);
     }
 
+    @PostMapping
+    public ResponseEntity<Map<CoordsDTO, WeatherResponseDTO>> getWeatherStatusList(
+            @RequestAttribute("username") String username, @RequestParam(required = false, defaultValue = "false") boolean aqi,
+            @RequestBody List<CoordsDTO> coords) {
+
+        User user = userService.getUserByUsername(username);
+        String apiKey = user.getUserprofile().getWeatherApiKey();
+
+        Map<CoordsDTO, WeatherResponseDTO> map = weatherService.getListWeatherStatus(apiKey, coords, aqi);
+
+        return ResponseEntity.ok(map);
+
+    }
 }

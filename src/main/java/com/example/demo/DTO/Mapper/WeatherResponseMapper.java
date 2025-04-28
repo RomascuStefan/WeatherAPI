@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class WeatherResponseMapper {
 
-    public static WeatherResponseDTO toDTO(Map<String, Object> response) {
+    public static WeatherResponseDTO toDTO(Map<String, Object> response, boolean includeAqi) {
 
         Map<String, Object> location = (Map<String, Object>) response.get("location");
         Map<String, Object> current = (Map<String, Object>) response.get("current");
@@ -17,6 +17,11 @@ public class WeatherResponseMapper {
         double tempC = ((Number) current.get("temp_c")).doubleValue();
         double windKph = ((Number) current.get("wind_kph")).doubleValue();
 
-        return new WeatherResponseDTO(name, country, localtime, tempC, windKph);
+        Map<String, Object> airQuality = null;
+        if (includeAqi) {
+            airQuality = (Map<String,Object>) current.get("air_quality");
+        }
+
+        return new WeatherResponseDTO(name, country, localtime, tempC, windKph, airQuality);
     }
 }

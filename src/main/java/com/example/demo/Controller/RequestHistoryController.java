@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/request_history")
 public class RequestHistoryController {
-
-
     private final RequestHistoryService requestHistoryService;
 
     @Autowired

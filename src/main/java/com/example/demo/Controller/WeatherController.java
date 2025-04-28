@@ -2,28 +2,22 @@ package com.example.demo.Controller;
 
 import com.example.demo.DTO.WeatherResponseDTO;
 import com.example.demo.Model.User;
-import com.example.demo.Service.RequestHistoryService;
 import com.example.demo.Service.WeatherService;
 import com.example.demo.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/weather")
 public class WeatherController {
 
     private final WeatherService weatherService;
-    private final RequestHistoryService requestHistoryService;
     private final UserService userService;
 
     @Autowired
-    public WeatherController(WeatherService weatherService, RequestHistoryService requestHistoryService, UserService userService) {
+    public WeatherController(WeatherService weatherService, UserService userService) {
         this.weatherService = weatherService;
-        this.requestHistoryService = requestHistoryService;
         this.userService = userService;
     }
 

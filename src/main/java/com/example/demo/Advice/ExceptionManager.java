@@ -19,17 +19,20 @@ public class ExceptionManager {
 
     @ExceptionHandler(InvalidCredentialsException.class)
     public ResponseEntity<Map<String,String>> invalidCred(InvalidCredentialsException ex) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(body(ex.getMessage()));
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(body(ex.getMessage()));
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<Map<String,String>> notFound(ResourceNotFoundException ex) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(body(ex.getMessage()));
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(body(ex.getMessage()));
     }
 
     @ExceptionHandler(DuplicateResourceException.class)
     public ResponseEntity<Map<String,String>> duplicate(DuplicateResourceException ex) {
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(body(ex.getMessage()));
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(body(ex.getMessage()));
     }
 
     @ExceptionHandler(JwtException.class)
@@ -55,5 +58,12 @@ public class ExceptionManager {
     public ResponseEntity<Map<String,String>> generic(Exception ex) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(body("Internal server error"));
+    }
+
+    @ExceptionHandler(TooManyLocationsException.class)
+    public ResponseEntity<Map<String,String>> tooMany(TooManyLocationsException ex) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(Collections.singletonMap("error", ex.getMessage()));
     }
 }

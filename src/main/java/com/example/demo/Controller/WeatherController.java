@@ -33,11 +33,10 @@ public class WeatherController {
             @RequestParam(required = false, defaultValue = "false") Boolean q, @RequestParam(required = false, defaultValue = "false") Boolean aqi) {
 
         User user = userService.getUserByUsername(username);
-
         String apiKey = user.getUserprofile().getWeatherApiKey();
-        WeatherResponseDTO response = weatherService.getWeatherStatus(apiKey, lat, lon, q, aqi);
 
-        requestHistoryService.saveRequestHistory(user, lat, lon, q, aqi, response);
+        WeatherResponseDTO response = weatherService.getWeatherStatus(apiKey, lat, lon, q, aqi);
         return ResponseEntity.ok(response);
     }
+
 }

@@ -2,6 +2,7 @@ package com.example.demo.Security;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -10,6 +11,7 @@ public class JwtInterceptor implements HandlerInterceptor {
 
     private final JwtUtil jwtUtil;
 
+    @Autowired
     public JwtInterceptor(JwtUtil jwtUtil) {
         this.jwtUtil = jwtUtil;
     }

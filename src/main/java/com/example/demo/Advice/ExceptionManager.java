@@ -2,6 +2,7 @@ package com.example.demo.Advice;
 
 import com.example.demo.Advice.Exception.*;
 import io.jsonwebtoken.JwtException;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,7 @@ public class ExceptionManager {
     }
 
     @ExceptionHandler(InvalidCredentialsException.class)
+    @ApiResponse(responseCode = "401", description = "Invalid credentials")
     public ResponseEntity<Map<String, String>> invalidCred(InvalidCredentialsException ex, HttpServletRequest request) {
 
         request.setAttribute("errMsg", ex.getMessage());
@@ -26,6 +28,7 @@ public class ExceptionManager {
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)
+    @ApiResponse(responseCode = "404", description = "Resource not found")
     public ResponseEntity<Map<String, String>> notFound(ResourceNotFoundException ex, HttpServletRequest request) {
 
         request.setAttribute("errMsg", ex.getMessage());
@@ -33,6 +36,7 @@ public class ExceptionManager {
     }
 
     @ExceptionHandler(DuplicateResourceException.class)
+    @ApiResponse(responseCode = "409", description = "Duplicate resource")
     public ResponseEntity<Map<String, String>> duplicate(DuplicateResourceException ex, HttpServletRequest request) {
 
         request.setAttribute("errMsg", ex.getMessage());
@@ -40,6 +44,7 @@ public class ExceptionManager {
     }
 
     @ExceptionHandler(JwtException.class)
+    @ApiResponse(responseCode = "401", description = "JWT invalid sau expirat")
     public ResponseEntity<Map<String, String>> badJwt(JwtException ex, HttpServletRequest request) {
 
         request.setAttribute("errMsg", "JWT invalid sau expirat");
@@ -47,6 +52,7 @@ public class ExceptionManager {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ApiResponse(responseCode = "400", description = "Invalid request payload")
     public ResponseEntity<Map<String, Object>> validation(MethodArgumentNotValidException ex, HttpServletRequest request) {
 
         Map<String, String> details = new HashMap<>();
@@ -62,6 +68,7 @@ public class ExceptionManager {
     }
 
     @ExceptionHandler(Exception.class)
+    @ApiResponse(responseCode = "500", description = "Internal server error")
     public ResponseEntity<Map<String, String>> generic(Exception ex, HttpServletRequest request) {
 
         request.setAttribute("errMsg", "Internal server error");
@@ -69,6 +76,7 @@ public class ExceptionManager {
     }
 
     @ExceptionHandler(TooManyLocationsException.class)
+    @ApiResponse(responseCode = "400", description = "Prea multe locatii")
     public ResponseEntity<Map<String, String>> tooMany(TooManyLocationsException ex, HttpServletRequest request) {
 
         request.setAttribute("errMsg", ex.getMessage());

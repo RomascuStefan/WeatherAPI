@@ -1,5 +1,6 @@
 package com.example.demo.Extra;
 
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
@@ -8,6 +9,7 @@ import org.springframework.web.client.RestTemplate;
 
 @Configuration
 @EnableAspectJAutoProxy
+@EnableCaching
 public class Config {
 
     @Bean

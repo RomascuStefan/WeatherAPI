@@ -13,6 +13,7 @@ import com.example.demo.Repository.UserProfileDAO;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -33,11 +34,12 @@ public class UserService {
         this.userProfileDAO = userProfileDAO;
     }
 
-    public ResponseEntity<UserDTO> getUser(String username) {
+    @Cacheable(value = "users", key = "#username")
+    public UserDTO getUser(String username) {
         Optional<User> user = userDAO.findByUsername(username);
 
         if (user.isPresent())
-            return ResponseEntity.ok(UserMapper.toDTO(user.get()));
+            return UserMapper.toDTO(user.get());
 
         throw new ResourceNotFoundException("Username", username);
     }

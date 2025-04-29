@@ -53,13 +53,13 @@ public class UserController {
     }
 
     @PostMapping
-    public UserDTO createUser(@RequestBody @Valid UserDTO userDTO) {
-        return userService.createUser(userDTO);
+    public ResponseEntity<UserDTO> createUser(@RequestBody @Valid UserDTO userDTO) {
+        return ResponseEntity.ok(userService.createUser(userDTO));
     }
 
     @PatchMapping
-    public UserDTO updateUser(@RequestAttribute("username") String jwtUser, @RequestBody @Valid UpdateUserDTO dto) {
-        return userService.updateUser(jwtUser, dto);
+    public ResponseEntity<UserDTO> updateUser(@RequestAttribute("username") String jwtUser, @RequestBody @Valid UpdateUserDTO dto) {
+        return ResponseEntity.ok(userService.updateUser(jwtUser, dto));
     }
 
 }

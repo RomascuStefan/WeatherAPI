@@ -1,0 +1,593 @@
+openapi: 3.1.0
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+- url: http://localhost:8080
+  description: Generated server url
+paths:
+  /api/weather:
+    get:
+      tags:
+      - weather-controller
+      operationId: getWeatherStatus
+      parameters:
+      - name: lat
+        in: query
+        required: true
+        schema:
+          type: number
+          format: float
+      - name: lon
+        in: query
+        required: true
+        schema:
+          type: number
+          format: float
+      - name: q
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+      - name: aqi
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+      responses:
+        "401":
+          description: Invalid credentials
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+        "400":
+          description: Prea multe locatii
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+        "404":
+          description: Resource not found
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+        "409":
+          description: Duplicate resource
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/WeatherResponseDTO"
+    post:
+      tags:
+      - weather-controller
+      operationId: getWeatherStatusList
+      parameters:
+      - name: aqi
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/CoordsDTO"
+        required: true
+      responses:
+        "401":
+          description: Invalid credentials
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+        "400":
+          description: Prea multe locatii
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+        "404":
+          description: Resource not found
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+        "409":
+          description: Duplicate resource
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  $ref: "#/components/schemas/WeatherResponseDTO"
+  /api/user:
+    get:
+      tags:
+      - user-controller
+      operationId: getUser
+      parameters:
+      - name: username
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: cacheData
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+      responses:
+        "401":
+          description: Invalid credentials
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+        "400":
+          description: Prea multe locatii
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+        "404":
+          description: Resource not found
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+        "409":
+          description: Duplicate resource
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/UserDTO"
+    post:
+      tags:
+      - user-controller
+      operationId: createUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserDTO"
+        required: true
+      responses:
+        "401":
+          description: Invalid credentials
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+        "400":
+          description: Prea multe locatii
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+        "404":
+          description: Resource not found
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+        "409":
+          description: Duplicate resource
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/UserDTO"
+    patch:
+      tags:
+      - user-controller
+      operationId: updateUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateUserDTO"
+        required: true
+      responses:
+        "401":
+          description: Invalid credentials
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+        "400":
+          description: Prea multe locatii
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+        "404":
+          description: Resource not found
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+        "409":
+          description: Duplicate resource
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/UserDTO"
+  /api/auth/login:
+    post:
+      tags:
+      - auth-controller
+      operationId: login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AuthDTO"
+        required: true
+      responses:
+        "401":
+          description: Invalid credentials
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+        "400":
+          description: Prea multe locatii
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+        "404":
+          description: Resource not found
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+        "409":
+          description: Duplicate resource
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+  /api/request_history:
+    get:
+      tags:
+      - request-history-controller
+      operationId: getAll
+      parameters:
+      - name: page
+        in: query
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: itemPerPage
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 10
+      responses:
+        "401":
+          description: Invalid credentials
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+        "400":
+          description: Prea multe locatii
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+        "404":
+          description: Resource not found
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+        "409":
+          description: Duplicate resource
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PageRequestHistoryDTO"
+components:
+  schemas:
+    CoordsDTO:
+      type: object
+      properties:
+        lat:
+          type: number
+          format: float
+        lon:
+          type: number
+          format: float
+    WeatherResponseDTO:
+      type: object
+      properties:
+        name:
+          type: string
+        country:
+          type: string
+        localtime:
+          type: string
+        tempC:
+          type: number
+          format: double
+        windKph:
+          type: number
+          format: double
+        airQuality:
+          type: object
+          additionalProperties:
+            type: object
+    UserDTO:
+      type: object
+      properties:
+        username:
+          type: string
+          minLength: 1
+        nume:
+          type: string
+          minLength: 1
+        email:
+          type: string
+          minLength: 1
+        emailNotification:
+          type: boolean
+        password:
+          type: string
+          writeOnly: true
+        weatherApiKey:
+          type: string
+          writeOnly: true
+    AuthDTO:
+      type: object
+      properties:
+        username:
+          type: string
+          minLength: 1
+        password:
+          type: string
+          minLength: 1
+    UpdateUserDTO:
+      type: object
+      properties:
+        email:
+          type: string
+        emailNotification:
+          type: boolean
+        weatherApiKey:
+          type: string
+    PageRequestHistoryDTO:
+      type: object
+      properties:
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int32
+        pageable:
+          $ref: "#/components/schemas/PageableObject"
+        numberOfElements:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: "#/components/schemas/RequestHistoryDTO"
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: "#/components/schemas/SortObject"
+        first:
+          type: boolean
+        last:
+          type: boolean
+        empty:
+          type: boolean
+    PageableObject:
+      type: object
+      properties:
+        pageNumber:
+          type: integer
+          format: int32
+        paged:
+          type: boolean
+        pageSize:
+          type: integer
+          format: int32
+        unpaged:
+          type: boolean
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: "#/components/schemas/SortObject"
+    RequestHistoryDTO:
+      type: object
+      properties:
+        lat:
+          type: string
+        lon:
+          type: string
+        response:
+          type: string
+        username:
+          type: string
+    SortObject:
+      type: object
+      properties:
+        unsorted:
+          type: boolean
+        sorted:
+          type: boolean
+        empty:
+          type: boolean

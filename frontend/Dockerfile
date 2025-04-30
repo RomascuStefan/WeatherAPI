@@ -3,6 +3,7 @@ FROM node:latest AS builder
 WORKDIR /app
 COPY package*.json angular.json tsconfig.* ./
 COPY src/ src/
+COPY public/ public/
 RUN npm install
 
 ARG configuration=production

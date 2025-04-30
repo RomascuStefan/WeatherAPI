@@ -28,7 +28,7 @@ public class WeatherController {
 
     @GetMapping
     public ResponseEntity<WeatherResponseDTO> getWeatherStatus(
-            @RequestAttribute("username") String username, @RequestParam int lat, @RequestParam int lon,
+            @RequestAttribute("username") String username, @RequestParam float lat, @RequestParam float lon,
             @RequestParam(required = false, defaultValue = "false") Boolean q, @RequestParam(required = false, defaultValue = "false") Boolean aqi) {
 
         User user = userService.getUserByUsername(username);

@@ -25,7 +25,7 @@ public class RequestHistoryService {
         this.requestHistoryDAO = requestHistoryDAO;
     }
 
-    public void saveRequestHistory(User user, int lat, int lon, Boolean q, Boolean aqi, WeatherResponseDTO response) {
+    public void saveRequestHistory(User user, float lat, float lon, Boolean q, Boolean aqi, WeatherResponseDTO response) {
         RequestHistory history = new RequestHistory();
 
         history.setLat(String.valueOf(lat));

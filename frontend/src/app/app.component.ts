@@ -9,15 +9,16 @@ import { AngularOpenlayersModule } from 'ng-openlayers';
 import { transform } from 'ol/proj';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { DialogComponent } from './dialog/dialog.component';
-import { WeatherResponse } from './model/weather-response';
-import * as data from '../../data.json';
+import { CommonModule } from '@angular/common';
 import { AppService } from './app.service';
 import { LoginComponent } from './login/login.component';
-import { CommonModule } from '@angular/common';
+import { WeatherResponse } from './model/weather-response';
 
 const SESSION_TIMEOUT_MINUTES = 10;
+
 @Component({
   selector: 'app-root',
+  standalone: true,
   imports: [
     AngularOpenlayersModule,
     MatDialogModule,
@@ -25,7 +26,6 @@ const SESSION_TIMEOUT_MINUTES = 10;
     LoginComponent,
   ],
   templateUrl: './app.component.html',
-  standalone: true,
   styleUrl: './app.component.css',
 })
 export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
@@ -33,12 +33,8 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
   lat = 0;
   lon = 0;
-
-  readonly dialog = inject(MatDialog);
-
-  res: WeatherResponse = data;
-
   isLoggedIn = false;
+  readonly dialog = inject(MatDialog);
 
   constructor(private appService: AppService) {}
 
@@ -47,66 +43,59 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     const sessionStart = localStorage.getItem('session_start');
 
     if (auth && sessionStart) {
-      const now = new Date().getTime();
+      const now = Date.now();
       const elapsed = now - parseInt(sessionStart, 10);
       const limit = SESSION_TIMEOUT_MINUTES * 60 * 1000;
 
-      if (elapsed < limit) {
-        this.isLoggedIn = true;
-      } else {
-        this.logout();
-      }
+      this.isLoggedIn = elapsed < limit;
+      if (!this.isLoggedIn) this.logout();
     }
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     window.addEventListener('click', this.extendSession.bind(this));
   }
 
-  extendSession() {
+  extendSession(): void {
     if (this.isLoggedIn) {
-      localStorage.setItem('session_start', new Date().getTime().toString());
+      localStorage.setItem('session_start', Date.now().toString());
     }
   }
 
-  logout() {
+  logout(): void {
     localStorage.removeItem('auth');
     localStorage.removeItem('session_start');
     this.isLoggedIn = false;
   }
 
-  async dispatchCursor(event: any) {
+  async dispatchCursor(event: any): Promise<void> {
     const coordinates = event.coordinate;
     this.lon = transform(coordinates, 'EPSG:3857', 'EPSG:4326')[0];
     this.lat = transform(coordinates, 'EPSG:3857', 'EPSG:4326')[1];
+
     try {
       const resp = await this.appService.getWeatherInfo(this.lon, this.lat);
       if (resp) {
-        console.log(resp);
         this.openDialog(resp);
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 
   openDialog(resp: any): void {
-    const dialogRef = this.dialog.open(DialogComponent, {
+    this.dialog.open(DialogComponent, {
       data: { weatherResponse: resp },
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
     });
   }
 
-  onLoginSuccess() {
-    const now = new Date().getTime();
+  onLoginSuccess(): void {
+    const now = Date.now();
     localStorage.setItem('session_start', now.toString());
     this.isLoggedIn = true;
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     window.removeEventListener('click', this.extendSession.bind(this));
   }
 }

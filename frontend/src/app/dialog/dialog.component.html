@@ -1,30 +1,26 @@
 <mat-dialog-content class="dialog-content">
   <mat-card appearance="outlined" class="location-name">
     <mat-card-content>
-      {{ data.weatherResponse.location.name }}
+      {{ data.weatherResponse.name }}
     </mat-card-content>
   </mat-card>
 
   <div class="grid-container">
     <div class="column">
       <h3>Location</h3>
-      <p><strong>Region:</strong> {{ data.weatherResponse.location.region }}</p>
-      <p>
-        <strong>Country:</strong> {{ data.weatherResponse.location.country }}
-      </p>
+      <p><strong>Country:</strong> {{ data.weatherResponse.country }}</p>
+      <p><strong>Local time:</strong> {{ data.weatherResponse.localtime }}</p>
     </div>
 
     <div class="column">
-      <h3>Forecast</h3>
-      <p><strong>Temp:</strong> {{ data.weatherResponse.current.temp_c }} °C</p>
-      <p>
-        <strong>Wind:</strong> {{ data.weatherResponse.current.wind_kph }} kph
-        {{ data.weatherResponse.current.wind_dir }}
-      </p>
-      <p>
-        <strong>Precipitation:</strong>
-        {{ data.weatherResponse.current.precip_mm }} mm
-      </p>
+      <h3>Weather</h3>
+      <p><strong>Temp:</strong> {{ data.weatherResponse.tempC }} °C</p>
+      <p><strong>Wind:</strong> {{ data.weatherResponse.windKph }} km/h</p>
     </div>
+  </div>
+
+  <div *ngIf="data.weatherResponse.airQuality">
+    <h3>Air Quality</h3>
+    <pre>{{ data.weatherResponse.airQuality | json }}</pre>
   </div>
 </mat-dialog-content>

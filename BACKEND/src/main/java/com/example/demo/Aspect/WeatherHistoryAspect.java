@@ -26,8 +26,8 @@ public class WeatherHistoryAspect {
     public void saveHistory(JoinPoint jp, Object result) {
         Object[] args = jp.getArgs();
 
-        int lat = (Integer) args[1];
-        int lon = (Integer) args[2];
+        float lat = (Float) args[1];
+        float lon = (Float) args[2];
         Boolean q = (Boolean) args[3];
         Boolean aqi = (Boolean) args[4];
 

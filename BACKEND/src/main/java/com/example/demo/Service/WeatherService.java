@@ -22,7 +22,7 @@ public class WeatherService {
         this.restTemplate = restTemplate;
     }
 
-    public WeatherResponseDTO getWeatherStatus(String apiKey, int lat, int lon, Boolean q, Boolean aqi) {
+    public WeatherResponseDTO getWeatherStatus(String apiKey, float lat, float lon, Boolean q, Boolean aqi) {
         String url = "http://api.weatherapi.com/v1/current.json?key=" + apiKey + "&q=" + lat + "," + lon;
         url += "&include_q=" + (q ? "yes" : "no");
         url += "&aqi=" + (aqi ? "yes" : "no");

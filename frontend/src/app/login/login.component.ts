@@ -35,7 +35,7 @@ export class LoginComponent {
     this.appService.login(username, password).subscribe({
       next: (authToken: string) => {
         //if you used JWT, please use Bearer instead of Basic!
-        localStorage.setItem('auth', `Basic ${authToken}`);
+        localStorage.setItem('auth', `Bearer ${authToken}`);
         this.submitSuccess.emit();
       },
       error: (err) => {

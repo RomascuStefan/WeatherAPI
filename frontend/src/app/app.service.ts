@@ -10,22 +10,18 @@ export class AppService {
 
   login(username: string, password: string): Observable<string> {
     return this.http.post(
-      'http://localhost:8081/auth/login',
+      'http://localhost:8080/api/auth/login',
       { username, password },
       { responseType: 'text' }
     );
   }
 
-  getWeatherInfo = (lon: number, lat: number) => {
+  getWeatherInfo(lon: number, lat: number): Promise<any> {
     const queryParams = new URLSearchParams({
       lat: lat.toString(),
       lon: lon.toString(),
     });
-    const configObject = {
-      method: 'GET',
-      url: `http://localhost:8081/weather/details?${queryParams.toString()}`,
-    };
-
-    return firstValueFrom(this.http.get(configObject.url));
-  };
+    const url = `http://localhost:8080/api/weather?${queryParams.toString()}`;
+    return firstValueFrom(this.http.get(url));
+  }
 }

@@ -14,6 +14,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/weather")
+@CrossOrigin(origins = "http://localhost:4200", exposedHeaders = "Authorization")
 public class WeatherController {
 
     private final WeatherService weatherService;

@@ -21,6 +21,12 @@ public class JwtInterceptor implements HandlerInterceptor {
                              HttpServletResponse response,
                              Object handler) throws Exception {
         String path = request.getRequestURI();
+        String method = request.getMethod();
+
+        if ("OPTIONS".equalsIgnoreCase(method)) {
+            return true;
+        }
+
         if (path.equals("/api/user") && request.getMethod().equals("POST")
                 || "/api/auth/login".equals(path) && "POST".equals(request.getMethod())) {
             return true;

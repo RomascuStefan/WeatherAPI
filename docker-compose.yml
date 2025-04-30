@@ -1,0 +1,38 @@
+services:
+  db:
+    image: mariadb:10.11
+    container_name: fiipractic_db
+    restart: unless-stopped
+    environment:
+      - MARIADB_ROOT_PASSWORD=parola
+      - MARIADB_DATABASE=FIIPractic
+      - MARIADB_USER=user
+      - MARIADB_PASSWORD=parola
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: fiipractic_backend
+    container_name: fiipractic_backend
+    restart: unless-stopped
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/FIIPractic
+      - SPRING_DATASOURCE_USERNAME=user
+      - SPRING_DATASOURCE_PASSWORD=parola
+      - JWT_SECRET=AcestSecretTrebuieSaAibaMinim32CaractereOareAreSiMaxim
+      - JWT_EXPIRATION=21600000
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    volumes:
+      - backend_logs:/app/logs
+
+volumes:
+  db_data:
+  backend_logs:
